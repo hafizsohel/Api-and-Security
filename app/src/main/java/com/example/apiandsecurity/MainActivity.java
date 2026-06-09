@@ -127,16 +127,25 @@ public class MainActivity extends AppCompatActivity {
         String url = "http://10.0.2.2/myapp/sohel.php";
 
         JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("pass","113355");
+            jsonObject.put("email","sohel@gmail.com");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        jsonArray.put(jsonObject);
 
         JsonArrayRequest arrayRequest= new JsonArrayRequest(Request.Method.POST, url, jsonArray, new Response.Listener<JSONArray>() {
             @Override
-            public void onResponse(JSONArray jsonArray) {
+            public void onResponse(JSONArray response) {
+                binding.tvStatus.setText(response.toString());
 
             }
         }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError volleyError) {
-
+            public void onErrorResponse(VolleyError error) {
+                binding.tvStatus.setText(error.getMessage());
             }
         });
         RequestQueue requestQueue=Volley.newRequestQueue(MainActivity.this);
